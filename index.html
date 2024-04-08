@@ -106,9 +106,22 @@
 				</label>
 			</div>
 
-			<div class="ts-colors">
-				<div id="tints-and-shades"></div>
+			<div class="tab">
+				<button class="tablinks" id="defaultTab" onclick="openMode(event, 'normal')">Normal Mode</button>
+				<button class="tablinks" onclick="openMode(event, 'extra')">Extra Mode</button>
 			</div>
+			<div id="normal" class="tabcontent">
+				<div class="ts-colors">
+					<div id="tints-and-shades"></div>
+				</div>
+			  </div>
+			  
+			  <div id="extra" class="tabcontent">
+				<div class="ts-colors">
+					<div id="tints-and-shades"></div>
+				</div>
+			  </div>
+			
 
 		</main>
 
@@ -119,6 +132,23 @@
 
 	</div>
 
+	<script>
+		document.getElementById("defaultTab").click();
+
+		function openMode(evt, mode) {
+		  var i, tabcontent, tablinks;
+		  tabcontent = document.getElementsByClassName("tabcontent");
+		  for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		  }
+		  tablinks = document.getElementsByClassName("tablinks");
+		  for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+		  }
+		  document.getElementById(mode).style.display = "block";
+		  evt.currentTarget.className += " active";
+		}
+	</script>
 	<script src="/scripts/jquery-3.6.0.min.js"></script>
 	<script src="/scripts/tints-and-shades.js"></script>
 	<script src="/scripts/clipboard.min.js"></script>
