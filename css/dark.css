@@ -10,7 +10,20 @@
 }
 
 .darkmode-active .table-header td span {
-	background: #4d4d4d;
+  background: #4d4d4d;
+}
+
+.darkmode-active .tab {
+  background: #4d4d4d;
+  border: 1px solid #2a2a2a;
+}
+
+.darkmode-active .tab button {
+  color: #ffffff;
+}
+
+.darkmode-active .tab button:hover {
+  background-color: #2a2a2a;
 }
 
 .darkmode-active .ts-ad {
@@ -40,7 +53,7 @@
 .darkmode-active a:hover,
 .darkmode-active a:focus,
 .darkmode-active a:active {
-    border-color: #ca228e;
+  border-color: #ca228e;
 }
 
 .darkmode-active code {
