@@ -59,8 +59,8 @@ function rgbToHex(rgb) {
 
 // shade one of our rgb color objects to a distance of i*10%
 // ({ red: 80, green: 18, blue: 20 }, 1) => { red: 72, green: 16, blue: 18 }
-function rgbShade(rgb, i, mode) {
-  var percent = mode === "normal" ? 0.2 : 0.1;
+function rgbShade(rgb, i) {
+  var percent = Number($("#percent-value").val()) / 100;
 
   return {
     red: rgb.red * (1 - percent * i),
@@ -71,9 +71,8 @@ function rgbShade(rgb, i, mode) {
 
 // tint one of our rgb color objects to a distance of i*10%
 // ({ red: 80, green: 18, blue: 20 }, 1) => { red: 98, green: 42, blue: 44 }
-function rgbTint(rgb, i, mode) {
-  var percent = mode === "normal" ? 0.2 : 0.1;
-
+function rgbTint(rgb, i) {
+  var percent = Number($("#percent-value").val()) / 100;
   return {
     red: rgb.red + (255 - rgb.red) * i * percent,
     green: rgb.green + (255 - rgb.green) * i * percent,
@@ -89,7 +88,7 @@ function calculate(colorValue, shadeOrTint, mode) {
   var shadeValues = [];
   var shadeValuesLength = mode === "normal" ? 5 : 9;
   for (var i = 1; i < shadeValuesLength; i++) {
-    shadeValues[i - 1] = rgbToHex(shadeOrTint(color, i, mode));
+    shadeValues[i - 1] = rgbToHex(shadeOrTint(color, i));
   }
   return shadeValues;
 }

@@ -166,7 +166,13 @@ code {
   resize: none;
   width: 100%;
 }
-
+.ts-form .input-percent {
+  padding: 1.2rem;
+  background: #f0f0f0;
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  width: 100%;
+}
 .labels {
   position: relative;
   display: flex;

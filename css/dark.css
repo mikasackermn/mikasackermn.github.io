@@ -8,7 +8,11 @@
   border-color: #4d4d4d;
   color: #e6e6e6;
 }
-
+.darkmode-active .ts-form .input-percent {
+  background: #4d4d4d;
+  border-color: #4d4d4d;
+  color: #e6e6e6;
+}
 .darkmode-active .table-header td span {
   background: #4d4d4d;
 }
