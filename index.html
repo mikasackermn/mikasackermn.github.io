@@ -94,11 +94,14 @@
 						<textarea id="color-values" name="color-values" autocomplete="off" autocorrect="off" autocapitalize="off"
 							spellcheck="false"></textarea>
 					</div>
-										<label for="quantity">Percent (between 10 and 100):</label>
-<div class="ts-input">
-					<input class="input-percent" id="percent-value" name="percent-value" type="number" value="10" min="10" max="100" />
+					<label for="quantity">Percent (between 1 and 100):</label>
+					<div class="ts-input">
+					<input class="input-percent" id="percent-value" name="percent-value" type="number" value="10" min="1" max="100" />
 					</div>
-
+					<label for="quantity">Number of colors:</label>
+					<div class="ts-input">
+					<input class="input-percent" id="number-of-colors" name="number-of-colors" type="number" value="20" min="20" />
+					</div>
 					<input id="make" class="button" type="submit" value="Make tints and shades &nbsp;🎉" />
 				</form>
 			</div>
@@ -111,15 +114,7 @@
 				</label>
 			</div>
 
-			<div class="tab">
-				<button class="tablinks" id="defaultTab" onclick="openMode(event, 'normal')">Normal Mode</button>
-				<button class="tablinks" onclick="openMode(event, 'extra')">Extra Mode</button>
-			</div>
-			<div id="normal" class="tabcontent">
-				<div class="ts-colors">
-					<div id="tints-and-shades"></div>
-				</div>
-			  </div>
+	
 			  
 			  <div id="extra" class="tabcontent">
 				<div class="ts-colors">

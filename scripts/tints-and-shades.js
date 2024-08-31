@@ -83,24 +83,29 @@ function rgbTint(rgb, i) {
 // take a hex color string and produce a list of 10 tints or shades of that color
 // shadeOrTint should be either `rgbShade` or `rgbTint`, as defined above
 // this allows us to use `calculate` for both shade and tint
-function calculate(colorValue, shadeOrTint, mode) {
+function calculate(colorValue, shadeOrTint) {
   var color = hexToRGB(colorValue);
   var shadeValues = [];
-  var shadeValuesLength = mode === "normal" ? 5 : 9;
+  var numberOfColors = Number($("#number-of-colors").val())
+  var shadeValuesLength = numberOfColors / 2;
+  console.log({ numberOfColors, shadeValuesLength });
+
   for (var i = 1; i < shadeValuesLength; i++) {
     shadeValues[i - 1] = rgbToHex(shadeOrTint(color, i));
   }
+  console.log({ shadeValues });
+
   return shadeValues;
 }
 
 // given a color value, return an array of ten shades in 10% increments
-function calculateShades(colorValue, mode) {
-  return calculate(colorValue, rgbShade, mode);
+function calculateShades(colorValue) {
+  return calculate(colorValue, rgbShade);
 }
 
 // given a color value, return an array of ten tints in 10% increments
-function calculateTints(colorValue, mode) {
-  return calculate(colorValue, rgbTint, mode);
+function calculateTints(colorValue) {
+  return calculate(colorValue, rgbTint);
 }
 
 function updateClipboardData() {
@@ -146,64 +151,58 @@ function makeTableRowColors(colors, displayType) {
   return tableRow;
 }
 
+function makeTableRowNameColors() {
+  var tableRow = `<tr class="table-header">`;
+  var numberOfColors = Number($("#number-of-colors").val())
+  for (var i = 1; i < numberOfColors; i++) {
+    tableRow += '<td><span>' + 50 * i + "</span></td>";
+  }
+  tableRow += "</tr>";
+  return tableRow;
+}
 function createTintsAndShades(firstTime) {
   var parsedColorsArray = parseColorValues($("#color-values").val());
   if (parsedColorsArray !== null) {
     // make sure we got value color values back from parsing
     var colorDisplayRows = []; // holds html table rows for the colors to display
-    var extraColorDisplayRows = []; // holds html table rows for the colors to display
-
+    var reverseColorDisplayRows = [];
     var tableRowCounter = 0;
-    var extraTableRowCounter = 0;
+    var reverseTableRowCounter = 0;
 
     for (var i = 0; i < parsedColorsArray.length; i++) {
       // iterate through each inputted color value
 
       // calculate an array of shades from the inputted color, then make a table row
       // from the shades, and a second table row for the hex values of the shades
-      var calculatedShades = calculateShades(parsedColorsArray[i], "normal");
+      var calculatedShades = calculateShades(parsedColorsArray[i]);
       // calculate an array of tints from the inputted color, then make a table row
       // from the tints, and a second table row for the hex values of the tints
-      var calculatedTints = calculateTints(parsedColorsArray[i], "normal")
+      var calculatedTints = calculateTints(parsedColorsArray[i])
         .reverse()
         .concat(parsedColorsArray[i]);
-      var calculatedShadesAndTints = calculatedTints.concat(calculatedShades);
 
+
+      var calculatedShadesAndTints = calculatedTints.concat(calculatedShades);
+      var calculatedTintsAndShades = calculatedTints.concat(calculatedShades).reverse();
       colorDisplayRows[tableRowCounter] = makeTableRowColors(calculatedShadesAndTints, "colors");
       tableRowCounter++;
       colorDisplayRows[tableRowCounter] = makeTableRowColors(calculatedShadesAndTints, "RGBValues");
       tableRowCounter++;
 
-      // extra mode
-      var calculatedExtraShades = calculateShades(parsedColorsArray[i], "extra");
-      var calculatedExtraTints = calculateTints(parsedColorsArray[i], "extra")
-        .reverse()
-        .concat(parsedColorsArray[i]);
-      var calculatedExtraShadesAndTints = calculatedExtraTints.concat(calculatedExtraShades);
+      reverseColorDisplayRows[reverseTableRowCounter] = makeTableRowColors(calculatedTintsAndShades, "colors");
+      reverseTableRowCounter++;
+      reverseColorDisplayRows[reverseTableRowCounter] = makeTableRowColors(calculatedTintsAndShades, "RGBValues");
+      reverseTableRowCounter++;
 
-      extraColorDisplayRows[extraTableRowCounter] = makeTableRowColors(
-        calculatedExtraShadesAndTints,
-        "colors",
-      );
-      extraTableRowCounter++;
-      extraColorDisplayRows[extraTableRowCounter] = makeTableRowColors(
-        calculatedExtraShadesAndTints,
-        "RGBValues",
-      );
-      extraTableRowCounter++;
     }
 
     // wrap the rows into an HTML table with a hard-coded header row
-    var colorDisplayNormalTable =
-      '<table><thead><tr class="table-header"><td><span>100</span></td><td><span>200</span></td><td><span>300</span></td><td><span>400</span></td><td><span>500</span></td><td><span>600</span></td><td><span>700</span></td><td><span>800</span></td><td><span>900</span></td></tr></thead>' +
-      colorDisplayRows.join("") +
-      "</table>";
     var colorDisplayExtraTable =
-      '<table><thead><tr class="table-header"><td><span>100</span></td><td><span>150</span></td><td><span>200</span></td><td><span>250</span></td><td><span>300</span></td><td><span>350</span></td><td><span>400</span></td><td><span>450</span></td><td><span>500</span></td><td><span>550</span></td><td><span>600</span></td><td><span>650</span></td><td><span>700</span></td><td><span>750</span></td><td><span>800</span></td><td><span>850</span></td><td><span>900</span></td></thead>' +
-      extraColorDisplayRows.join("") +
+      '<table><thead>' + makeTableRowNameColors() + '</thead>' +
+      colorDisplayRows.join("") +
+      reverseColorDisplayRows.join("") +
       "</table>";
     // replace tints-and-shades div with color display table wrapped by the same div
-    $("#normal #tints-and-shades").html(colorDisplayNormalTable);
     $("#extra #tints-and-shades").html(colorDisplayExtraTable);
 
     // set url hash to a comma seperated list of hex codes
