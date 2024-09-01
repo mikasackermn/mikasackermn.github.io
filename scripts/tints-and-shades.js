@@ -88,13 +88,10 @@ function calculate(colorValue, shadeOrTint) {
   var shadeValues = [];
   var numberOfColors = Number($("#number-of-colors").val())
   var shadeValuesLength = numberOfColors / 2;
-  console.log({ numberOfColors, shadeValuesLength });
 
   for (var i = 1; i < shadeValuesLength; i++) {
     shadeValues[i - 1] = rgbToHex(shadeOrTint(color, i));
   }
-  console.log({ shadeValues });
-
   return shadeValues;
 }
 
@@ -154,12 +151,19 @@ function makeTableRowColors(colors, displayType) {
 function makeTableRowNameColors() {
   var tableRow = `<tr class="table-header">`;
   var numberOfColors = Number($("#number-of-colors").val())
+  var increment = 1000 / numberOfColors;
+  var start = 100 / (numberOfColors/10);
+
+  var value = start  
   for (var i = 1; i < numberOfColors; i++) {
-    tableRow += '<td><span>' + 50 * i + "</span></td>";
+    tableRow += '<td><span>' +  value.toFixed(0) + "</span></td>";
+    value = start + increment * i;
+
   }
   tableRow += "</tr>";
   return tableRow;
 }
+
 function createTintsAndShades(firstTime) {
   var parsedColorsArray = parseColorValues($("#color-values").val());
   if (parsedColorsArray !== null) {
