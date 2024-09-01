@@ -153,9 +153,9 @@ function makeTableRowNameColors() {
   var numberOfColors = Number($("#number-of-colors").val())
   var increment = 1000 / numberOfColors;
   var start = 100 / (numberOfColors/10);
-
+  var num = numberOfColors % 2 === 0 ? numberOfColors : numberOfColors + 1
   var value = start  
-  for (var i = 1; i < numberOfColors; i++) {
+  for (var i = 1; i < num; i++) {
     tableRow += '<td><span>' +  value.toFixed(0) + "</span></td>";
     value = start + increment * i;
 
